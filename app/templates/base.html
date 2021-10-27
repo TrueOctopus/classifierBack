@@ -1,0 +1,25 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+</div>
+    {% block page_content %}{% endblock %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}
