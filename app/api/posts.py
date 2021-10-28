@@ -1,29 +1,38 @@
 # -*- coding: utf-8 -*-
 from flask import jsonify, request, current_app
-from ..models import User, db
 from . import api
-import os
+
+import codecs
+from textRank.textrank4zh.TextRank4Keyword import TextRank4Keyword
+from textRank.textrank4zh.TextRank4Sentence import TextRank4Sentence
 
 
-@api.route('/posts/addUser', methods=['POST', 'GET'])
-def addUser():
-    if request.method == 'POST':
-        user_data = request.json
-        email = user_data.get('email')
-        username = user_data.get('username')
-        password = user_data.get('password')
-        if all([email, username, password]):
-            user = User(email=email, username=username,
-                        password=password, confirmed=True)
-        else:
-            return jsonify({'code': -1, 'message': '添加失败， 信息不全'})
-        try:
-            db.session.add(user)
-            db.session.commit()
-        except Exception as e:
-            return jsonify({'code': 0, 'message': str(e)})
-        json_data = user.to_json()
-        json_data['code'] = 1
-        json_data['message'] = '添加成功'
-        return jsonify(json_data)
+@api.route("/posts/classifier", methods=['POST'])
+def classifier():
+    title = request.get_json().get('title')
+    abstract = request.get_json().get('abstract')
+    keyword = request.get_json().get('keyword')
+    text = request.get_json().get('text')
+    tr4w = TextRank4Keyword()
 
+    print("title's keyword")
+    tr4w.analyze(text=title, lower=True, window=2)
+    for item in tr4w.get_keywords(20, word_min_len=1):
+        print(item.word, item.weight)
+
+    print("abstract's keyword")
+    tr4w.analyze(text=abstract, lower=True, window=2)
+    for item in tr4w.get_keywords(20, word_min_len=1):
+        print(item.word, item.weight)
+
+    print("keyword's keyword")
+    tr4w.analyze(text=keyword, lower=True, window=2)
+    for item in tr4w.get_keywords(20, word_min_len=1):
+        print(item.word, item.weight)
+
+    print("text's keyword")
+    tr4w.analyze(text=text, lower=True, window=2)
+    for item in tr4w.get_keywords(20, word_min_len=1):
+        print(item.word, item.weight)
+
+    return jsonify({'category': tr4w.get_keywords(20, word_min_len=1)})

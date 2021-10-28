@@ -29,6 +29,9 @@ Werkzeug @ file:///tmp/build/80754af9/werkzeug_1631818832573/work
 wincertstore==0.2
 zipp @ file:///tmp/build/80754af9/zipp_1633618647012/work
 
-flask~=2.0.2
+flask~=1.1.1
 werkzeug~=2.0.1
 itsdangerous~=2.0.1
+jieba~=0.42.1
+networkx~=2.6.2
+numpy~=1.20.3

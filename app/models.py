@@ -55,7 +55,8 @@ class User(UserMixin, db.Model):
             'phone_num': self.phone_num,
             'email': self.email,
             'address': self.address,
-            'unit': self.unit
+            'unit': self.unit,
+            'permission': self.permission
         }
         return json_user
 
