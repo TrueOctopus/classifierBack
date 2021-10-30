@@ -31,10 +31,11 @@ def register():
         email = account.get('email')
         password = account.get('password')
         username = account.get('username')
+        phone_num = account.get('phone_num')
 
         try:
             user = User(email=email, password=password,
-                        username=username)
+                        username=username, phone_num=phone_num)
             db.session.add(user)
             db.session.commit()
         except Exception as e:

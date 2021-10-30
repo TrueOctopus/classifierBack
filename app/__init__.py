@@ -10,7 +10,7 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    # CORS(app, origins="*", supports_credentials=True)
+    CORS(app, origins="*", supports_credentials=True)
     db.init_app(app)
 
     from .api import api as api_blueprint
